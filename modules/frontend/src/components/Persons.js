@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import Connection from "./Connection";
+import {
+    PERSONS_API_PORT,
+    LOCATION_API_PORT
+} from "../config.json"
 
 class Persons extends Component {
   constructor(props) {
     super(props);
     // TODO: endpoint should be abstracted into a config variable
-    this.endpoint_url = "http://localhost:30001/api/persons";
+    this.endpoint_url = "http://localhost:${process.env.PERSONS_API_PORT}/api/persons";
     this.state = {
       persons: [],
       display: null,
@@ -30,6 +34,7 @@ class Persons extends Component {
       <div className="lists">
         <div className="peopleBox">
           <div className="peopleHeader">People</div>
+          <div className="port">{}</div>
           <ul className="personList">
             {this.state.persons.map((person) => (
               <li
