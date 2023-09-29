@@ -10,7 +10,7 @@ from kafka import KafkaProducer
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("grpc")
 
-KAFKA_SERVER = 'localhost:9092'
+KAFKA_SERVER = 'kafka-service:9092'
 KAFKA_TOPIC = 'location'
 
 
@@ -21,7 +21,7 @@ class LocationService(location_pb2_grpc.LocationServiceServicer):
             'person_id': request.person_id,
             'latitude': request.latitude,
             'longitude': request.longitude
-        })
+        }).encode('utf-8')
         kafka_config = {
             'bootstrap_servers': KAFKA_SERVER
         }
