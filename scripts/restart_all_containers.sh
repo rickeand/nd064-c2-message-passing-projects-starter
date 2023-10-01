@@ -1,3 +1,3 @@
-kubectl delete -f ./deployment_refactored
-kubectl apply -f ./deployment_refactored
+kubectl delete -f ./deployment
+kubectl apply -f ./deployment
 kubectl get pods
