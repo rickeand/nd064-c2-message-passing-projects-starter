@@ -1,0 +1,8 @@
+gRPC is used to submit the location data from the mobile devices to the kafka queue.
+It provides the necessary performance for high frequency location updates.
+
+Kafka works as a buffer in front of the database, in case postgres can't keep up with the amount of data.
+
+The frontend uses REST APIs to load the data.
+
+The API is split by service. Persons, locations and connections have their own microservies that access the database.

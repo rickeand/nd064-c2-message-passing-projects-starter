@@ -1,0 +1,18 @@
+gRPC documentation for locations messages
+
+syntax = "proto3";
+
+message LocationMessage {
+  int32 person_id = 1;
+  float latitude = 2;
+  float longitude = 3;
+}
+
+service LocationService {
+    rpc Create(LocationMessage) returns (LocationMessage);
+}
+
+How to make a sample request:
+- run kubectl get pods
+- look for pod that starts with grpc
+- run kubectl exec -it {grpc-pod} python grpc_test.py

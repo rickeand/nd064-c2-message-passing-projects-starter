@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  description: Describes the refactored Udaconnect API
+  version: "1.0.0"
+  title: Udaconnect backend
+paths:
+  /persons/{personId}:
+    get:
+      summary: Return person information
+      operationId: getPersonById
+      description: Return person details for a given ID
+      parameters:
+        - in: path
+          name: personId
+          schema:
+            type: integer
+          required: true
+          description: ID of person
+      responses:
+        '200':
+          description:  Person found in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSchema'
+  /persons:
+    get:
+      summary: Get all Persons as List
+      operationId: getPersons
+      description: Returns all Person information from the database
+      responses:
+        '200':
+          description: Data available
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonSchema'
+    post:
+      summary: Insert new person into database
+      operationId: createPerson
+      description: Create a new person in database
+      responses:
+        '200':
+          description: Person created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSchema'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonSchema'
+        description: Person information
+  /persons/{personId}/connection:
+    get:
+      summary:  Get all connections of a person
+      operationId: getConnection
+      description: Get all connections for a given person id
+      parameters:
+        - in: path
+          name: personId
+          schema:
+            type: integer
+          required: true
+          description: ID of a person
+        - in: query
+          name: start_date
+          description: Start date of period
+          schema:
+            type: string
+            format: date
+            example: '2023-09-01'
+        - in: query
+          name: end_date
+          description: End date of period
+          schema:
+            type: string
+            format: date
+            example: '2023-10-01'
+        - in: query
+          name: distance
+          description: distance
+          schema:
+            type: string
+            format: integer
+      responses:
+        '200':
+          description: Connections received successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConnectionSchema'
+components:
+  schemas:
+    PersonSchema:
+      type: object
+      required:
+        - id
+        - first_name
+        - last_name
+        - company_name
+      properties:
+        id:
+          type: integer
+          example: 1
+        first_name:
+          type: string
+          example: 'John'
+        last_name:
+          type: string
+          example: 'Doe'
+        company_name:
+          type: string
+          example: 'google'
+    LocationSchema:
+      type: object
+      required:
+        - id
+        - person_id
+        - longitude
+        - latitude
+        - creation_time
+      properties:
+        id:
+          type: integer
+          example: 1
+        person_id:
+          type: integer
+          example: 1
+        longitude:
+          type: string
+          example: '-122.290883'
+        latitude:
+          type: string
+          example: '45.689045'
+        creation_time:
+          type: string
+          format: date-time
+          example: '2023-09-01T00:00:00.001Z'
+    ConnectionSchema:
+      type: object
+      required:
+        - location
+        - person
+      properties:
+        location:
+          $ref: '#/components/schemas/LocationSchema'
+        person:
+          $ref: '#/components/schemas/PersonSchema'
